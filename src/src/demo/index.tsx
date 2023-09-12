@@ -1,70 +1,61 @@
 import React from 'react';
-import { Layout, Space } from 'antd';
+import { Button, Checkbox, Form, Input } from 'antd';
 
-const { Header, Footer, Sider, Content } = Layout;
-
-const headerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#fff',
-    height: 64,
-    paddingInline: 50,
-    lineHeight: '64px',
-    backgroundColor: '#7dbcea',
+const onFinish = (values: any) => {
+    console.log('Success:', values);
 };
 
-const contentStyle: React.CSSProperties = {
-    textAlign: 'center',
-    minHeight: 120,
-    lineHeight: '120px',
-    color: '#fff',
-    backgroundColor: '#108ee9',
+const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
 };
 
-const siderStyle: React.CSSProperties = {
-    textAlign: 'center',
-    lineHeight: '120px',
-    color: '#fff',
-    backgroundColor: '#3ba0e9',
-};
-
-const footerStyle: React.CSSProperties = {
-    textAlign: 'center',
-    color: '#fff',
-    backgroundColor: '#7dbcea',
+type FieldType = {
+    username?: string;
+    password?: string;
+    remember?: string;
 };
 
 const App: React.FC = () => (
-    <Space direction="vertical" style={{ width: '100%' }} size={[0, 48]}>
-        <Layout>
-            <Header style={headerStyle}>Header</Header>
-            <Content style={contentStyle}>Content</Content>
-            <Footer style={footerStyle}>Footer</Footer>
-        </Layout>
-        <Layout>
-            <Header style={headerStyle}>Header</Header>
-            <Layout hasSider>
-                <Sider style={siderStyle}>Sider</Sider>
-                <Content style={contentStyle}>Content</Content>
-            </Layout>
-            <Footer style={footerStyle}>Footer</Footer>
-        </Layout>
-        <Layout>
-            <Header style={headerStyle}>Header</Header>
-            <Layout hasSider>
-                <Content style={contentStyle}>Content</Content>
-                <Sider style={siderStyle}>Sider</Sider>
-            </Layout>
-            <Footer style={footerStyle}>Footer</Footer>
-        </Layout>
-        <Layout>
-            <Sider style={siderStyle}>Sider</Sider>
-            <Layout>
-                <Header style={headerStyle}>Header</Header>
-                <Content style={contentStyle}>Content</Content>
-                <Footer style={footerStyle}>Footer</Footer>
-            </Layout>
-        </Layout>
-    </Space>
+    <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        style={{ maxWidth: 600 }}
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+    >
+        <Form.Item<FieldType>
+            label="Username"
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+            <Input />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+        >
+            <Input.Password />
+        </Form.Item>
+
+        <Form.Item<FieldType>
+            name="remember"
+            valuePropName="checked"
+            wrapperCol={{ offset: 8, span: 16 }}
+        >
+            <Checkbox>Remember me</Checkbox>
+        </Form.Item>
+
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+            <Button type="primary" htmlType="submit">
+                Submit
+            </Button>
+        </Form.Item>
+    </Form>
 );
 
 export default App;
